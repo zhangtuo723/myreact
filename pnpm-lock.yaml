@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 importers:
 
   .:
@@ -13,6 +17,9 @@ importers:
       eslint:
         specifier: ^8.38.0
         version: registry.npmmirror.com/eslint@8.38.0
+      eslint-plugin,:
+        specifier: link:@typescript-eslint/eslint-plugin,
+        version: link:@typescript-eslint/eslint-plugin,
       husky:
         specifier: ^8.0.3
         version: registry.npmmirror.com/husky@8.0.3
