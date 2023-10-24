@@ -12,3 +12,6 @@ export interface ReactElementType {
 	ref: Ref;
 	__mark: string;
 }
+
+// 两种出发更新方式 setState(newState) , setState((state)=>newState)
+export type Action<State> = State | ((prevState:State)=>State)
