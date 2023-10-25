@@ -16,16 +16,16 @@ export const createUpdate = <State>(action: Action<State>): Update<State> => {
 }
 
 
-export const createUpdateQueue = <Action>() => {
+export const createUpdateQueue = <State>() => {
     return {
         shared: {
             pending: null
         }
-    } as UpdateQueue<Action>
+    } as UpdateQueue<State>
 }
 
-export const enqueueUpdate = <Action>(
-    updateQueue: UpdateQueue<Action>, update: Update<Action>
+export const enqueueUpdate = <State>(
+    updateQueue: UpdateQueue<State>, update: Update<State>
 ) => {
     updateQueue.shared.pending = update
 
@@ -35,13 +35,13 @@ export const processUpdateQueue = <State>(
     baseState: State,
     pendingUpdate: Update<State> | null
 ): { memoizedState: State } => {
-    const result:ReturnType<typeof processUpdateQueue<State>> = {memoizedState:baseState}
-    if(pendingUpdate!==null){
+    const result: ReturnType<typeof processUpdateQueue<State>> = { memoizedState: baseState }
+    if (pendingUpdate !== null) {
         const action = pendingUpdate.action
         // setstate 里面传入的是函数
-        if(action instanceof Function){
+        if (action instanceof Function) {
             result.memoizedState = action(baseState)
-        }else{
+        } else {
             result.memoizedState = action
         }
     }
