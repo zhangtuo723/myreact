@@ -1,4 +1,5 @@
 import { beginWorker } from "./beginWorke";
+import { commitMutationEffects } from "./commitWork";
 import { completeWork } from "./completeWorke";
 import { FiberNode, FiberRootNode, createWorkInProgress } from "./fiber";
 import { MutationMask, NoFlags } from "./fiberFlags";
@@ -76,6 +77,9 @@ function commitRoot(root: FiberRootNode) {
     if (subtreeHasEffect || rootHasEffect) {
         // beforeMutation
         // mutation Placement
+
+        commitMutationEffects(finishedWork)
+
         root.current = finishedWork
         // layout
 
