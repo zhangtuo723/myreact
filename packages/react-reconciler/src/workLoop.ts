@@ -98,7 +98,6 @@ function workLoop() {
 function performanceUnitOfWork(fiber: FiberNode) {
     const next = beginWorker(fiber)
     fiber.memoizedProps = fiber.pendingProps
-
     if (next == null) {
         completeUnitofWork(fiber)
     } else {
@@ -110,6 +109,7 @@ function completeUnitofWork(fiber: FiberNode) {
     let node: FiberNode | null = fiber
     do {
         completeWork(node)
+        
         const sibling = node.sibling
         if (sibling !== null) {
             workInprogress = sibling

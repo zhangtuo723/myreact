@@ -39,6 +39,7 @@ function updateHostComponent(wip:FiberNode){
     const nextProps = wip.pendingProps
     const nextChildren = nextProps.children
     reconcileChildren(wip,nextChildren)
+  
     return wip.child;
 }
 
@@ -48,6 +49,7 @@ function reconcileChildren(wip:FiberNode,children?:ReactElementType){
         // update
         wip.child = reconcileChildFibers(wip,current.child,children)
     }else{
+        
         wip.child = mountChildFibers(wip,null,children)
     }
 

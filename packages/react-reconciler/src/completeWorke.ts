@@ -54,6 +54,7 @@ function appendAllChildren(parent: Container, wip: FiberNode) {
     let node = wip.child;
     while (node !== null) {
         if (node.tag === HostComponent || node.tag === HostText) {
+            // 首屏幕complete时候会将dom插入到父亲dom上，并且打上placement标签,commit 时候会重新执行副作用，这时候会重新插入一遍的？？？？
             appendInitialChild(parent, node?.stateNode)
         } else if (node.child !== null) {
             node.child.return = node;

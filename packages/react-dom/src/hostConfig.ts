@@ -12,6 +12,7 @@ export const appendInitialChild = (
     parent: Instance | Container,
     child: Instance
 ) => {
+   
     parent.appendChild(child)
 }
 
@@ -24,5 +25,6 @@ export const appendChildToContainer = (
     parent: Instance | Container,
     child: Instance
 ) => {
+
     parent.appendChild(child)
 }
