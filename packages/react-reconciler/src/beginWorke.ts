@@ -3,7 +3,7 @@ import { FiberNode } from "./fiber"
 import { UpdateQueue, processUpdateQueue } from "./updateQueue";
 import { FunctionComponent, HostComponent, HostRoot, HostText } from "./workTags"
 import { mountChildFibers, reconcileChildFibers } from "./childFibers";
-import { renderWithHoks } from "./fiberHooks";
+import { renderWithHooks } from "./fiberHooks";
 export const beginWorker = (wip: FiberNode) => {
     switch (wip.tag) {
         case HostRoot:
@@ -25,9 +25,9 @@ export const beginWorker = (wip: FiberNode) => {
 }
 function updateFunctionComponent(wip: FiberNode) {
     const nextProps = wip.pendingProps
-    const nextChildren = renderWithHoks(wip)
+    const nextChildren = renderWithHooks(wip)
 
-    
+
     reconcileChildren(wip, nextChildren)
 
     return wip.child

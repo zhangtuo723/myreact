@@ -1,14 +1,17 @@
-import React from 'react';
+
 import ReactDOM from 'react-dom';
-console.log(React)
+import {useState} from 'react'
+
 
 const root = document.querySelector('#root')
 // const jsx = <div>
 //   <span>big-react</span>
 // </div>
 function App() {
+  const [num,setNum] = useState(100)
+  window.setNum = setNum
   return <div>
-    <Child></Child>
+   {num}
   </div>
 }
 function Child() {
