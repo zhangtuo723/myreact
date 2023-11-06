@@ -4,7 +4,7 @@ import { Flags, NoFlags } from "./fiberFlags";
 
 import { Container } from "hostConfig";
 export class FiberNode {
-    type: any;
+    type: any; // div 或者函数。。。
     tag: WorkTag
     pendingProps: Props
     key: Key
