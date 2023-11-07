@@ -9,9 +9,9 @@ const root = document.querySelector('#root')
 // </div>
 function App() {
   const [num,setNum] = useState(100)
-  window.setNum = setNum
+  const [num1,setNum1] = useState(200)
   return <div>
-   {num}
+   {num+num1}
   </div>
 }
 function Child() {

@@ -14,6 +14,12 @@ const ReactElement = function (type: Type, key: Key, ref: Ref, props: Props): Re
     return element
 }
 
+export function isValidElement(object: any) {
+    return (typeof object === 'object' &&
+        object !== null &&
+        object.$$typeof === REACT_ELEMENT_TYPE)
+}
+
 export const jsx = (type: ElementType, config: any, ...maybeChildren: any) => {
     let key: Key = null
     const props: Props = {}
@@ -37,7 +43,7 @@ export const jsx = (type: ElementType, config: any, ...maybeChildren: any) => {
             props[prop] = val;
         }
     }
-    const maybeChildrenLength = maybeChildren.lenfth;
+    const maybeChildrenLength = maybeChildren.length;
     if (maybeChildrenLength) {
         if (maybeChildrenLength === 1) {
             props.children = maybeChildren[0]
@@ -47,6 +53,8 @@ export const jsx = (type: ElementType, config: any, ...maybeChildren: any) => {
     }
     return ReactElement(type, key, ref, props)
 }
+
+
 
 export const jsxDEV = (type: ElementType, config: any) => {
     let key: Key = null
@@ -68,8 +76,8 @@ export const jsxDEV = (type: ElementType, config: any) => {
             continue
         }
         if ({}.hasOwnProperty.call(config, prop)) {
-			props[prop] = val;
-		}
+            props[prop] = val;
+        }
     }
 
     return ReactElement(type, key, ref, props)

@@ -20,6 +20,7 @@ interface Hook {
 export function renderWithHooks(wip: FiberNode) {
     // 赋值操作
     currentlyRenderingFiber = wip
+    // fiber的memoizedState 指向第一个hooks
     wip.memoizedState = null
 
     const current = wip.alternate
@@ -47,6 +48,7 @@ const HooksDispatcherOnMount: Dispatcher = {
 function mountState<State>(initialState: (() => State) | State): [State, Dispatch<State>] {
     // 找到当前useState对应的hook数据
     const hook = mountWorkInProgressHook()
+
 
     let memoizedState;
     if (initialState instanceof Function) {
