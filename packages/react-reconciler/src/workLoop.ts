@@ -93,10 +93,11 @@ function workLoop() {
     while (workInprogress !== null) {
         performanceUnitOfWork(workInprogress)
     }
+
 }
 
 function performanceUnitOfWork(fiber: FiberNode) {
-    const next = beginWorker(fiber)
+    const next =  beginWorker(fiber)
     fiber.memoizedProps = fiber.pendingProps
     if (next == null) {
         completeUnitofWork(fiber)
