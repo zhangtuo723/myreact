@@ -14,7 +14,7 @@ const { currentDispatcher } = internals
 interface Hook {
     // fiber的memoizedState指向hook链表 这里的memoizedState是链表节点中存的数据
     memoizedState: any
-    updateQueuq: unknown
+    updateQueue: unknown
     next: Hook | null
 }
 
@@ -25,8 +25,10 @@ export function renderWithHooks(wip: FiberNode) {
     wip.memoizedState = null
 
     const current = wip.alternate
+
     if (current !== null) {
         // update
+
         currentDispatcher.current = HooksDispatcherOnUpdate;
     } else {
         // mount
@@ -57,12 +59,14 @@ function updateState<State>(): [State, Dispatch<State>] {
     // 找到当前useState对应的hook数据
     const hook = updateWorkInProgressHook()
 
+
     // 计算新state的逻辑
-    const queue = hook.updateQueuq as UpdateQueue<State>
+    const queue = hook.updateQueue as UpdateQueue<State>
+
     const pending = queue.shared.pending
-    
-    if(pending!==null){
-        const {memoizedState} = processUpdateQueue(hook.memoizedState,pending)
+
+    if (pending !== null) {
+        const { memoizedState } = processUpdateQueue(hook.memoizedState, pending)
         hook.memoizedState = memoizedState
     }
 
@@ -72,7 +76,9 @@ function updateState<State>(): [State, Dispatch<State>] {
 function updateWorkInProgressHook(): Hook {
     // TODO render 出发的更新
     let nextCurrentHook: Hook | null
+    
     if (currentHook === null) {
+        
         // 这是fc update 时的第一个hook
         const current = currentlyRenderingFiber?.alternate
         if (current !== null) {
@@ -85,7 +91,7 @@ function updateWorkInProgressHook(): Hook {
         nextCurrentHook = currentHook.next
     }
 
-    if(nextCurrentHook === null){
+    if (nextCurrentHook === null) {
         // mount/update u1 u2 u3 
         // update u1 u2 u3 u4
         throw new Error(`组件${currentlyRenderingFiber?.type}本次执行的hook比上次多`)
@@ -95,9 +101,11 @@ function updateWorkInProgressHook(): Hook {
 
     const newHook: Hook = {
         memoizedState: currentHook.memoizedState,
-        updateQueuq: currentHook.updateQueuq,
+        updateQueue: currentHook.updateQueue,
         next: null
     }
+
+
 
     if (workInProgressHook === null) {
         // mount时 第一个hook
@@ -112,6 +120,7 @@ function updateWorkInProgressHook(): Hook {
         workInProgressHook.next = newHook
         workInProgressHook = newHook
     }
+
     return workInProgressHook
 
 }
@@ -128,11 +137,11 @@ function mountState<State>(initialState: (() => State) | State): [State, Dispatc
         memoizedState = initialState
     }
     const queue = createUpdateQueue<State>();
-    hook.updateQueuq = queue
+    hook.updateQueue = queue
     hook.memoizedState = memoizedState
     // @ts-ignore
     const dispatch = dispatchSetState.bind(null, currentlyRenderingFiber, queue);
-
+    queue.dispatch = dispatch
     return [memoizedState, dispatch]
 }
 
@@ -151,7 +160,7 @@ function dispatchSetState<State>(
 function mountWorkInProgressHook(): Hook {
     const hook: Hook = {
         memoizedState: null,
-        updateQueuq: null,
+        updateQueue: null,
         next: null
     }
     if (workInProgressHook === null) {

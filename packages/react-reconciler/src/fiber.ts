@@ -16,7 +16,7 @@ export class FiberNode {
     child: FiberNode | null;
     index: number;
 
-    memoizedProps: Props | null
+    memoizedProps: Props | null;
     memoizedState: any
     alternate: FiberNode | null
     flags: Flags

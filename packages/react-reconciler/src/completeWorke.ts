@@ -2,6 +2,7 @@ import { Container, appendInitialChild, createInstance, createTextInstance } fro
 import { FiberNode } from "./fiber"
 import { FunctionComponent, HostComponent, HostRoot, HostText } from "./workTags"
 import { NoFlags, Update } from "./fiberFlags"
+import { updateFiberProps } from "react-dom/src/SyntheticEvent"
 
 
 function markUpdate (fiber:FiberNode){
@@ -17,12 +18,17 @@ export const completeWork = (wip: FiberNode) => {
             // 构建dom 插入 dom树中
             if (current !== null && wip.stateNode) {
                 // update
-                
+                // 1. props 是否变化
+                // 2. 变了 Update flag 
+                // 正常情况下要判断所有的props 是否改变，有点麻烦不影响功能，性能影响也不大，暂时不处理
+
+                // FiberNode.updateQueue = [className,'aaa']
+                updateFiberProps(wip.stateNode,newProps)
             } else {
                 // 挂载
                 // 构建dom 
                 // const instance = createInstance(wip.type，newProps)
-                const instance = createInstance(wip.type)
+                const instance = createInstance(wip.type,newProps)
                 // 插入dom树中
                 appendAllChildren(instance, wip)
                 wip.stateNode = instance
@@ -32,7 +38,7 @@ export const completeWork = (wip: FiberNode) => {
             return null
         case HostText:
             if (current !== null && wip.stateNode) {
-                // update
+                // update  // memoizedProps Props | null   props 是any？啊
                 const oldText = current.memoizedProps.content;
                 const newText = newProps.content;
                 if(oldText!==newText){
