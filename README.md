@@ -27,8 +27,9 @@ packages ：react，react-dom，react-reconciler，shared，
 - [x] 使用jest跑完React官网ReactElement相关测试用例
 - [x] 新增useState钩子函数（mount阶段useState和update阶段的useState）
 - [x] 完成单节点update（单节点diff，复用fiber）
-- [ ] 实现事件系统
-- [ ] diff算法
+- [x] 实现事件系统（实现onclick onclickcapture）
+- [x] 多接点diff算法
+- [ ] 实现Fragment
 - [ ] 调度模型 lane
 - [ ] useEffect钩子函数
 - [ ] 并发更新
