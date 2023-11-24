@@ -57,14 +57,16 @@ export const jsx = (type: ElementType, config: any, ...maybeChildren: any) => {
 
 
 
-export const jsxDEV = (type: ElementType, config: any,...a:any) => {
+export const jsxDEV = (type: ElementType, config: any,maybeKey:any) => {
 // todo  config.key?? 有问题
 //    console.log(config,'xxx',a)
-   config.key = a[0]
+   
     let key: Key = null
     const props: Props = {}
     let ref: Ref = null
-
+    if(maybeKey!==undefined){
+        key = '' + maybeKey
+    }
     for (const prop in config) {
         const val = config[prop]
         if (prop === 'key') {
