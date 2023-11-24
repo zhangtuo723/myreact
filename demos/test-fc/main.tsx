@@ -5,6 +5,7 @@ import { useState } from 'react'
 
 
 
+
 const root = document.querySelector('#root')
 // // const jsx = <div>
 // //   <span>big-react</span>
@@ -29,17 +30,24 @@ const root = document.querySelector('#root')
 function App() {
   const [num, setNum] = useState(100)
   const arr = num % 2 === 0 ? [
-    <li key='1'>1</li>,
-    <li key='2'>2</li>,
-    <li key='3'>3</li>,
+    { key: 1, c: 1 },
+    { key: 2, c: 2 },
+    { key: 3, c: 3 },
+    {key:4,c:4}
+
+
+
   ] : [
-    <li key='3'>3</li>,
-    <li key='2'>2</li>,
-    <li key='1'>1</li>
+    { key: 3, c: 3 },
+    { key: 2, c: 2 },
+    { key: 1, c: 1 },
+    {key:4,c:4}
 
   ]
-  return <ul onClickCapture={()=>{setNum(num+1)}}>
-{arr}
+
+
+  return <ul onClickCapture={() => { setNum(num + 1) }}>
+    {arr.map(v => <li key={v.key}>{v.c}</li>)}
   </ul>
 }
 ReactDOM.createRoot(root).render(<App></App>)

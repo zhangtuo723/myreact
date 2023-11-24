@@ -149,11 +149,15 @@ function ChildReconciler(shouldTrackEffects: boolean) {
             }
 
             const current = newFiber.alternate
+            
             if (current !== null) {
                 const oldIndex = current.index
+              
                 if (oldIndex < lastPlacedIndex) {
+                    
                     // 移动
                     newFiber.flags |= Placement
+                    
                     continue
                 } else {
                     // 不移动
@@ -179,7 +183,7 @@ function ChildReconciler(shouldTrackEffects: boolean) {
     ): FiberNode | null {
         const keyToUse = element.key !== null ? element.key : index
         const before = existingChildren.get(keyToUse)
-
+        
         if (typeof element === 'string' || typeof element === 'number') {
             // HostText
             if (before) {
@@ -222,7 +226,7 @@ function ChildReconciler(shouldTrackEffects: boolean) {
         newChild?: ReactElementType
     ) {
         // 判断当前fiber类型
-        if (typeof newChild == 'object' && newChild !== null) {
+        if (typeof newChild === 'object' && newChild !== null) {
             switch (newChild.$$typeof) {
                 case REACT_ELEMENT_TYPE:
                     return placeSingleChild(reconcileSingleElement(returnFiber, currentFiber, newChild));
@@ -233,8 +237,10 @@ function ChildReconciler(shouldTrackEffects: boolean) {
                     break
             }
         }
+      
         //TODO 多接点的diff
         if (Array.isArray(newChild)) {
+          
             return reconcileChildrenArray(returnFiber, currentFiber, newChild)
         }
         // 文本节点 hosttext

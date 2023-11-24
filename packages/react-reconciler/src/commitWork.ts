@@ -136,10 +136,10 @@ const commitPlacement = (finishedWork: FiberNode) => {
 
     // host sibling
     const sibling = getHostSibling(finishedWork)
-
+ 
     // finishedwork---dom
     if (hostParent !== null) {
-        insertOrAppendPlacementNodeIntoContainer(finishedWork, hostParent)
+        insertOrAppendPlacementNodeIntoContainer(finishedWork, hostParent,sibling)
     }
 
 }
@@ -201,6 +201,7 @@ function insertOrAppendPlacementNodeIntoContainer(
     before?: Instance
 ) {
     // fiber host
+    
     if (finishedWork.tag === HostComponent || finishedWork.tag == HostText) {
         if (before) {
             insertChildToContainer(finishedWork.stateNode,hostParent,before)

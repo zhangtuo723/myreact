@@ -21,6 +21,7 @@ export function isValidElement(object: any) {
 }
 
 export const jsx = (type: ElementType, config: any, ...maybeChildren: any) => {
+   
     let key: Key = null
     const props: Props = {}
     let ref: Ref = null
@@ -56,7 +57,10 @@ export const jsx = (type: ElementType, config: any, ...maybeChildren: any) => {
 
 
 
-export const jsxDEV = (type: ElementType, config: any) => {
+export const jsxDEV = (type: ElementType, config: any,...a:any) => {
+// todo  config.key?? 有问题
+//    console.log(config,'xxx',a)
+   config.key = a[0]
     let key: Key = null
     const props: Props = {}
     let ref: Ref = null
