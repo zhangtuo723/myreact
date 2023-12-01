@@ -1,5 +1,5 @@
 import { Props, Key, Ref, ReactElementType } from "shared/ReactTypes";
-import { FunctionComponent, HostComponent, WorkTag } from "./workTags";
+import { Fragment, FunctionComponent, HostComponent, WorkTag } from "./workTags";
 import { Flags, NoFlags } from "./fiberFlags";
 
 import { Container } from "hostConfig";
@@ -20,14 +20,14 @@ export class FiberNode {
     memoizedState: any
     alternate: FiberNode | null
     flags: Flags
-    subtreeFlags:Flags
+    subtreeFlags: Flags
     updateQueue: unknown
-    deletions:FiberNode[]| null
+    deletions: FiberNode[] | null
 
     constructor(tag: WorkTag, pendingProps: Props, key: Key) {
         // 实例属性
         this.tag = tag;
-        this.key = key;
+        this.key = key || null;
         // hostcompoent <div>dom
         this.stateNode = null;
         this.type = null
@@ -88,7 +88,7 @@ export const createWorkInProgress = (current: FiberNode, pendingProps: Props): F
     wip.child = current.child
     wip.memoizedProps = current.memoizedProps
     wip.memoizedState = current.memoizedState
-    
+
     return wip
 }
 
@@ -96,15 +96,23 @@ export function createFiberFromElement(element: ReactElementType): FiberNode {
 
     const { type, key, props } = element
     let fiberTag: WorkTag = FunctionComponent;
-    if(typeof type === 'string'){
+    if (typeof type === 'string') {
         // <div/> type : 'div'
         fiberTag = HostComponent
-    }else if (typeof type !== 'function' && __DEV__) {
-		console.warn('为定义的type类型', element);
-	}
+    } else if (typeof type !== 'function' && __DEV__) {
+        console.warn('为定义的type类型', element);
+    }
 
-    const fiber = new FiberNode(fiberTag,props,key)
+    const fiber = new FiberNode(fiberTag, props, key)
     fiber.type = type
     return fiber
+
+
+}
+
+export function createFiberFromFragment(elements:any[],key:Key):FiberNode{
+    
+    const fiber = new FiberNode(Fragment, elements ,key)
+    return fiber 
 
 }

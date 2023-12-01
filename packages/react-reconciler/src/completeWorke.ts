@@ -1,12 +1,12 @@
 import { Container, appendInitialChild, createInstance, createTextInstance } from "hostConfig"
 import { FiberNode } from "./fiber"
-import { FunctionComponent, HostComponent, HostRoot, HostText } from "./workTags"
+import { Fragment, FunctionComponent, HostComponent, HostRoot, HostText } from "./workTags"
 import { NoFlags, Update } from "./fiberFlags"
 import { updateFiberProps } from "react-dom/src/SyntheticEvent"
 
 
-function markUpdate (fiber:FiberNode){
-    fiber.flags |=Update
+function markUpdate(fiber: FiberNode) {
+    fiber.flags |= Update
 }
 export const completeWork = (wip: FiberNode) => {
 
@@ -23,12 +23,12 @@ export const completeWork = (wip: FiberNode) => {
                 // 正常情况下要判断所有的props 是否改变，有点麻烦不影响功能，性能影响也不大，暂时不处理
 
                 // FiberNode.updateQueue = [className,'aaa']
-                updateFiberProps(wip.stateNode,newProps)
+                updateFiberProps(wip.stateNode, newProps)
             } else {
                 // 挂载
                 // 构建dom 
                 // const instance = createInstance(wip.type，newProps)
-                const instance = createInstance(wip.type,newProps)
+                const instance = createInstance(wip.type, newProps)
                 // 插入dom树中
                 appendAllChildren(instance, wip)
                 wip.stateNode = instance
@@ -41,7 +41,7 @@ export const completeWork = (wip: FiberNode) => {
                 // update  // memoizedProps Props | null   props 是any？啊
                 const oldText = current.memoizedProps.content;
                 const newText = newProps.content;
-                if(oldText!==newText){
+                if (oldText !== newText) {
                     markUpdate(wip)
                 }
             } else {
@@ -55,9 +55,8 @@ export const completeWork = (wip: FiberNode) => {
             bubbleProperties(wip)
             return null
         case HostRoot:
-            bubbleProperties(wip)
-            return null
         case FunctionComponent:
+        case Fragment:
             bubbleProperties(wip)
             return null
         default:
@@ -96,14 +95,14 @@ function appendAllChildren(parent: Container, wip: FiberNode) {
 
 }
 
-function bubbleProperties(wip:FiberNode){
+function bubbleProperties(wip: FiberNode) {
     let subtreeFlags = NoFlags
     let child = wip.child;
-    while (child!==null){
-        subtreeFlags|=child.subtreeFlags
-        subtreeFlags|=child.flags
+    while (child !== null) {
+        subtreeFlags |= child.subtreeFlags
+        subtreeFlags |= child.flags
         child.return = wip
         child = child.sibling
     }
-    wip.subtreeFlags|=subtreeFlags
+    wip.subtreeFlags |= subtreeFlags
 }

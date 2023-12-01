@@ -1,9 +1,10 @@
 import { ReactElementType } from "shared/ReactTypes";
 import { FiberNode } from "./fiber"
 import { UpdateQueue, processUpdateQueue } from "./updateQueue";
-import { FunctionComponent, HostComponent, HostRoot, HostText } from "./workTags"
+import { FunctionComponent, HostComponent, HostRoot, HostText, Fragment } from "./workTags"
 import { mountChildFibers, reconcileChildFibers } from "./childFibers";
 import { renderWithHooks } from "./fiberHooks";
+
 export const beginWorker = (wip: FiberNode) => {
     switch (wip.tag) {
         case HostRoot:
@@ -15,6 +16,8 @@ export const beginWorker = (wip: FiberNode) => {
             return null
         case FunctionComponent:
             return updateFunctionComponent(wip)
+        case Fragment:
+            return updateFragment(wip)
         default:
             if (__DEV__) {
                 console.log('beginWork未实现的类型');
@@ -22,6 +25,14 @@ export const beginWorker = (wip: FiberNode) => {
             break
     }
     return null
+}
+function updateFragment(wip: FiberNode) {
+    const nextChildren = wip.pendingProps
+
+
+    reconcileChildren(wip, nextChildren)
+
+    return wip.child
 }
 function updateFunctionComponent(wip: FiberNode) {
     const nextProps = wip.pendingProps
@@ -65,7 +76,5 @@ function reconcileChildren(wip: FiberNode, children?: ReactElementType) {
 
         wip.child = mountChildFibers(wip, null, children)
     }
-
-
 
 }

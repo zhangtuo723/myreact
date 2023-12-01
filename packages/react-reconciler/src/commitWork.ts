@@ -57,21 +57,34 @@ const commitMutationEffectsOnFiber = (finishedWork: FiberNode) => {
     }
 }
 
+function recordHostChildrenToDelete(rootChildrenToDelete: FiberNode[], unmountFiber: FiberNode) {
+    // 1 找到第一个root host节点
+    let lastOne = rootChildrenToDelete[rootChildrenToDelete.length - 1]
+    if (!lastOne) {
+        rootChildrenToDelete.push(unmountFiber)
+    } else {
+        let node = lastOne.sibling
+        while (node !== null) {
+            if (unmountFiber === node) {
+                rootChildrenToDelete.push(unmountFiber)
+            }
+            node = node.sibling
+        }
+    }
+    // 2 每找到一个host 判断一下是不是1找到的那个兄弟 
+}
+
 function commitDeletion(childToDelete: FiberNode) {
-    let rootHostNode: FiberNode | null = null
+    let rootChildrenToDelete: FiberNode[] = []
     // 递归子树
     commitNestedComponent(childToDelete, unmountFiber => {
         switch (unmountFiber.tag) {
             case HostComponent:
-                if (rootHostNode === null) {
-                    rootHostNode = unmountFiber
-                }
+                recordHostChildrenToDelete(rootChildrenToDelete, unmountFiber)
                 // TODO 解绑ref
                 return
             case HostText:
-                if (rootHostNode === null) {
-                    rootHostNode = unmountFiber
-                }
+                recordHostChildrenToDelete(rootChildrenToDelete, unmountFiber)
                 return
             case FunctionComponent:
                 // TODO useEffect unmount 
@@ -84,10 +97,13 @@ function commitDeletion(childToDelete: FiberNode) {
         }
     })
     //移除rootHostComponent的DOM
-    if (rootHostNode !== null) {
+    if (rootChildrenToDelete.length) {
         const hostParent = getHostParent(childToDelete)
         if (hostParent !== null) {
-            removeChild((rootHostNode as FiberNode).stateNode, hostParent)
+            rootChildrenToDelete.forEach(node => {
+                removeChild(node.stateNode, hostParent)
+            })
+
         }
 
     }
@@ -136,10 +152,10 @@ const commitPlacement = (finishedWork: FiberNode) => {
 
     // host sibling
     const sibling = getHostSibling(finishedWork)
- 
+
     // finishedwork---dom
     if (hostParent !== null) {
-        insertOrAppendPlacementNodeIntoContainer(finishedWork, hostParent,sibling)
+        insertOrAppendPlacementNodeIntoContainer(finishedWork, hostParent, sibling)
     }
 
 }
@@ -201,10 +217,10 @@ function insertOrAppendPlacementNodeIntoContainer(
     before?: Instance
 ) {
     // fiber host
-    
+
     if (finishedWork.tag === HostComponent || finishedWork.tag == HostText) {
         if (before) {
-            insertChildToContainer(finishedWork.stateNode,hostParent,before)
+            insertChildToContainer(finishedWork.stateNode, hostParent, before)
         } else {
             appendChildToContainer(hostParent, finishedWork.stateNode)
         }
