@@ -3,6 +3,7 @@ import { Fragment, FunctionComponent, HostComponent, WorkTag } from "./workTags"
 import { Flags, NoFlags } from "./fiberFlags";
 
 import { Container } from "hostConfig";
+import { Lane, Lanes, NoLane,NoLanes } from "./fiberLanes";
 export class FiberNode {
     type: any; // div 或者函数。。。
     tag: WorkTag
@@ -58,11 +59,15 @@ export class FiberRootNode {
     container: Container;
     current: FiberNode;
     finishedWork: FiberNode | null
+    pendingLanes:Lanes
+    finishedLane:Lane
     constructor(container: Container, hostRootFiber: FiberNode) {
         this.container = container
         this.current = hostRootFiber
         hostRootFiber.stateNode = this
         this.finishedWork = null
+        this.pendingLanes = NoLanes
+        this.finishedLane = NoLane
     }
 }
 

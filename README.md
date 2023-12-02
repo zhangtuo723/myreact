@@ -29,7 +29,7 @@ packages ：react，react-dom，react-reconciler，shared，
 - [x] 完成单节点update（单节点diff，复用fiber）
 - [x] 实现事件系统（实现onclick onclickcapture）
 - [x] 多接点diff算法
-- [ ] 实现Fragment
-- [ ] 调度模型 lane
+- [x] 实现Fragment
+- [x] 调度模型 lane (已实现同步调度)
 - [ ] useEffect钩子函数
 - [ ] 并发更新

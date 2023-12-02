@@ -1,1 +1,1 @@
-declare let __DEV__:Boolean
+declare let __DEV__: Boolean

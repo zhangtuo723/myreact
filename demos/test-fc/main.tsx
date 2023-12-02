@@ -47,21 +47,22 @@ function App() {
   // ]
   const arr = num%2==0? [<li key={1}>1</li>,<li key={2}>2</li>]:[<li key={3}>3</li>,<li key={4}>4</li>]
   const click = () => {
-    setNum(num + 1); 
-    setN(100)
+    // setNum(num + 1); 
+    // setN(100)
+    // setNum(num+1)
+    // setNum()
+    // console.log(num)
+    setNum(num=>num+1)
+    setNum(num=>num+1)
+    setNum(num=>num+1)
   }
   
 
-  return <ul onClickCapture={click}>
   
-  <li>3</li>
-  <li>4</li>
-  {arr}
-</ul>
 
-  // return <ul onClickCapture={click}>
-  //   {arr.map(v => <li key={v.key}>{v.c}</li>)}
-  // </ul>
+  return <ul onClickCapture={click}>
+    {num}
+  </ul>
 }
 ReactDOM.createRoot(root).render(<App></App>)
 
