@@ -31,5 +31,5 @@ packages ：react，react-dom，react-reconciler，shared，
 - [x] 多接点diff算法
 - [x] 实现Fragment
 - [x] 调度模型 lane (已实现同步调度)
-- [ ] useEffect钩子函数
+- [x] useEffect钩子函数
 - [ ] 并发更新

@@ -1,7 +1,7 @@
 
 import ReactDOM from 'react-dom';
 // console.log('xxx')
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 
 
 
@@ -27,42 +27,71 @@ const root = document.querySelector('#root')
 //   return <span>big-react</span>
 // }
 
+// function App() {
+//   const [num, setNum] = useState(100)
+//   const[n, setN] = useState(1)  
+//   // const arr = num % 2 === 0 ? [
+//   //   { key: 1, c: 1 },
+//   //   { key: 2, c: 2 },
+//   //   { key: 3, c: 3 },
+//   //   { key: 4, c: 4 }
+
+
+
+//   // ] : [
+//   //   { key: 3, c: 3 },
+//   //   { key: 2, c: 2 },
+//   //   { key: 1, c: 1 },
+//   //   { key: 4, c: 4 }
+
+//   // ]
+//   const arr = num%2==0? [<li key={1}>1</li>,<li key={2}>2</li>]:[<li key={3}>3</li>,<li key={4}>4</li>]
+//   const click = () => {
+//     // setNum(num + 1); 
+//     // setN(100)
+//     // setNum(num+1)
+//     // setNum()
+//     // console.log(num)
+//     setNum(num=>num+1)
+//     setNum(num=>num+1)
+//     setNum(num=>num+1)
+//   }
+  
+
+  
+
+//   return <ul onClickCapture={click}>
+//     {num}
+//   </ul>
+// }
+
 function App() {
-  const [num, setNum] = useState(100)
-  const[n, setN] = useState(1)  
-  // const arr = num % 2 === 0 ? [
-  //   { key: 1, c: 1 },
-  //   { key: 2, c: 2 },
-  //   { key: 3, c: 3 },
-  //   { key: 4, c: 4 }
+  const [num, updateNum] = useState(0);
+  useEffect(() => {
+    console.log('App mount');
+  }, []);
 
+  useEffect(() => {
+    console.log('num change create', num);
+    return () => {
+      console.log('num change destroy', num);
+    };
+  }, [num]);
 
+  return (
+    <div onClick={() => updateNum(num + 1)}>
+      {num === 0 ? <Child /> : 'noop'}
+    </div>
+  );
+}
 
-  // ] : [
-  //   { key: 3, c: 3 },
-  //   { key: 2, c: 2 },
-  //   { key: 1, c: 1 },
-  //   { key: 4, c: 4 }
+function Child() {
+  useEffect(() => {
+    console.log('Child mount');
+    return () => console.log('Child unmount');
+  }, []);
 
-  // ]
-  const arr = num%2==0? [<li key={1}>1</li>,<li key={2}>2</li>]:[<li key={3}>3</li>,<li key={4}>4</li>]
-  const click = () => {
-    // setNum(num + 1); 
-    // setN(100)
-    // setNum(num+1)
-    // setNum()
-    // console.log(num)
-    setNum(num=>num+1)
-    setNum(num=>num+1)
-    setNum(num=>num+1)
-  }
-  
-
-  
-
-  return <ul onClickCapture={click}>
-    {num}
-  </ul>
+  return 'i am child';
 }
 ReactDOM.createRoot(root).render(<App></App>)
 
