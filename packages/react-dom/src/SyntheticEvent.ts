@@ -1,7 +1,9 @@
 // 合成事件相关
 
-import { Container } from "hostConfig"
+import { Container } from "./hostConfig"
 import { Props } from "shared/ReactTypes"
+import { Instance } from "./hostConfig"
+
 
 export const elementPropsKey = '__props'
 
@@ -25,7 +27,7 @@ export function updateFiberProps(node: DOMElement, props: Props) {
     node[elementPropsKey] = props
 }
 
-export function initEvent(container: Container, eventType: string) {
+export function initEvent(container: Container|Instance, eventType: string) {
     if (!validEventTypeList.includes(eventType)) {
         console.warn('当前不支持', eventType, '事件')
         return

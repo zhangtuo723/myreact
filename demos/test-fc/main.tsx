@@ -1,7 +1,7 @@
 
 import ReactDOM from 'react-dom';
 // console.log('xxx')
-import { useState,useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 
 
@@ -56,42 +56,63 @@ const root = document.querySelector('#root')
 //     setNum(num=>num+1)
 //     setNum(num=>num+1)
 //   }
-  
 
-  
+
+
 
 //   return <ul onClickCapture={click}>
 //     {num}
 //   </ul>
 // }
 
-function App() {
-  const [num, updateNum] = useState(0);
-  useEffect(() => {
-    console.log('App mount');
-  }, []);
+// function App() {
+//   const [num, updateNum] = useState(0);
+//   useEffect(() => {
+//     console.log('App mount');
+//   }, []);
 
-  useEffect(() => {
-    console.log('num change create', num);
-    return () => {
-      console.log('num change destroy', num);
-    };
-  }, [num]);
+//   useEffect(() => {
+//     console.log('num change create', num);
+//     return () => {
+//       console.log('num change destroy', num);
+//     };
+//   }, [num]);
 
-  return (
-    <div onClick={() => updateNum(num + 1)}>
-      {num === 0 ? <Child /> : 'noop'}
-    </div>
-  );
-}
+//   return (
+//     <div onClick={() => updateNum(num + 1)}>
+//       {num === 0 ? <Child /> : 'noop'}
+//     </div>
+//   );
+// }
 
 function Child() {
   useEffect(() => {
-    console.log('Child mount');
-    return () => console.log('Child unmount');
-  }, []);
+    console.log('孩子 useEffect');
+    
+    return () => console.log('卸载孩子');
+  }, );
 
   return 'i am child';
+}
+function Parent(){
+  useEffect(()=>{
+    console.log('父亲 useEffect');
+    
+    return ()=>{
+      console.log('卸载父亲');
+    }
+  })
+  return <Child></Child>
+}
+function App() {
+  
+
+  const [n, setN] = useState(100)
+  return <div onClick={() => setN(n + 1)}>
+    <div>111</div>
+    {n % 2 == 0 && <Parent></Parent>}
+
+  </div>
 }
 ReactDOM.createRoot(root).render(<App></App>)
 

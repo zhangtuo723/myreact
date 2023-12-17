@@ -1,4 +1,4 @@
-import { scheduleMircoTask } from "hostConfig";
+import { scheduleMicroTask } from "hostConfig";
 import { beginWorker } from "./beginWorke";
 import { commitHookEffectListCreate, commitHookEffectListDestroy, commitHookEffectListUnmount, commitMutationEffects } from "./commitWork";
 import { completeWork } from "./completeWorke";
@@ -16,7 +16,7 @@ import { HookHasEffect, Passive } from "./hookEffectTags";
 
 let workInprogress: FiberNode | null = null;
 let wipRootRenderLane: Lane = NoLane;
-let rootDoesHasPassiveEffects: Boolean = false
+let rootDoesHasPassiveEffects = false
 // 初始化
 function prepareRefreshStack(root: FiberRootNode, lane: Lane) {
     workInprogress = createWorkInProgress(root.current, {})
@@ -44,7 +44,7 @@ function ensureRootIsScheduled(root: FiberRootNode) {
         // [performSyncWorkOnRoot,performSyncWorkOnRoot] 如队的过程
         scheduleSyncCallback(performSyncWorkOnRoot.bind(null, root, updateLane))
 
-        scheduleMircoTask(flushSyncCallbacks)
+        scheduleMicroTask(flushSyncCallbacks)
     } else {
         // 其他优先级 用宏任务调度
     }
