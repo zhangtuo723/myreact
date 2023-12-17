@@ -16,7 +16,7 @@ import { HookHasEffect, Passive } from "./hookEffectTags";
 
 let workInprogress: FiberNode | null = null;
 let wipRootRenderLane: Lane = NoLane;
-let rootDoesHasPassiveEffects: Boolean = false
+let rootDoesHasPassiveEffects = false
 // 初始化
 function prepareRefreshStack(root: FiberRootNode, lane: Lane) {
     workInprogress = createWorkInProgress(root.current, {})
@@ -139,7 +139,6 @@ function commitRoot(root: FiberRootNode) {
                 flushPassiveEffects(root.pendingPassiveEffects)
                 return;
             })
-
         }
 
     }
@@ -176,15 +175,15 @@ function flushPassiveEffects(pendingPassiveEffects: PendingPassiveEffects) {
 
     pendingPassiveEffects.unmount = []
 
-    
+
     pendingPassiveEffects.update.forEach(effect => {
-        commitHookEffectListDestroy(Passive | HookHasEffect,effect)
+        commitHookEffectListDestroy(Passive | HookHasEffect, effect)
     })
 
     pendingPassiveEffects.update.forEach(effect => {
-        commitHookEffectListCreate(Passive | HookHasEffect,effect)
+        commitHookEffectListCreate(Passive | HookHasEffect, effect)
     })
-    
+
     pendingPassiveEffects.update = []
     // effect 内部可能更新的操作，?????,所以重新flushSyncCallbacks
     flushSyncCallbacks()
@@ -195,6 +194,7 @@ function flushPassiveEffects(pendingPassiveEffects: PendingPassiveEffects) {
 function workLoop() {
     while (workInprogress !== null) {
         performanceUnitOfWork(workInprogress)
+        
     }
 
 }
