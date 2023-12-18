@@ -1,6 +1,6 @@
 // ReactDOM.crateRoot(root).render(<APP/>)
 
-import { createContainer, upDateContainer } from "react-reconciler/fiberReconciler";
+import { createContainer, updateContainer } from "react-reconciler/src/fiberReconciler";
 import { Container } from "./hostConfig";
 import { ReactElementType } from 'shared/ReactTypes'
 import { Instance } from "./hostConfig";
@@ -91,7 +91,7 @@ export function createRoot() {
         _Scheduler:Scheduler,
         render(element: ReactElementType) {
 
-            return upDateContainer(element, root)
+            return updateContainer(element, root)
         },
         getChildren() {
             return getChildren(container)
