@@ -153,7 +153,6 @@ function commitRoot(root: FiberRootNode) {
                 flushPassiveEffects(root.pendingPassiveEffects)
                 return;
             })
-
         }
 
     }
@@ -193,16 +192,15 @@ function flushPassiveEffects(pendingPassiveEffects: PendingPassiveEffects) {
 
     pendingPassiveEffects.unmount = []
 
-    
+
     pendingPassiveEffects.update.forEach(effect => {
-        commitHookEffectListDestroy(Passive | HookHasEffect,effect)
+        commitHookEffectListDestroy(Passive | HookHasEffect, effect)
     })
 
     pendingPassiveEffects.update.forEach(effect => {
-        
-        commitHookEffectListCreate(Passive | HookHasEffect,effect)
+        commitHookEffectListCreate(Passive | HookHasEffect, effect)
     })
-    
+
     pendingPassiveEffects.update = []
     // effect 内部可能更新的操作，?????,所以重新flushSyncCallbacks
     flushSyncCallbacks()
@@ -213,6 +211,7 @@ function flushPassiveEffects(pendingPassiveEffects: PendingPassiveEffects) {
 function workLoop() {
     while (workInprogress !== null) {
         performanceUnitOfWork(workInprogress)
+        
     }
 
 }

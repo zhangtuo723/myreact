@@ -51,7 +51,7 @@ export const jsx = (type: ElementType, config: any, ...maybeChildren: any) => {
         } else {
             props.children = maybeChildren;
         }
-    }
+    } 
     return ReactElement(type, key, ref, props)
 }
 

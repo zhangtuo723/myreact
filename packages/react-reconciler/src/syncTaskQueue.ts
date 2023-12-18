@@ -26,7 +26,7 @@ export function flushSyncCallbacks() {
             // }
         } catch (e) {
             if (__DEV__) {
-                console.log('flushSyncCallbacks报错', e)
+                console.error('flushSyncCallbacks报错', e)
             }
         } finally {
             isFlushingSyncQueue = false

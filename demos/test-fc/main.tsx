@@ -1,129 +1,53 @@
 
-import ReactDOM from 'react-dom';
-// console.log('xxx')
-import { useState, useEffect } from 'react'
+// import ReactDOM from 'react-noop-renderer';
 
-
-
-
-const roots = document.querySelector('#root')
-// // const jsx = <div>
-// //   <span>big-react</span>
-// // </div>
-// function App() {
-//   const [num, setNum] = useState(100)
-//   window.setNum = setNum
-//   return <div>
-//     {num === 3 ? <Child></Child> :  num}
-//   </div>
-// }
 
 // function App() {
-//   const [num, setNum] = useState(100)
-
-//   return <div onClickCapture={()=>setNum(num+1)}>{num}</div>
-// }
-// function Child() {
-//   return <span>big-react</span>
-// }
-
-// function App() {
-//   const [num, setNum] = useState(100)
-//   const[n, setN] = useState(1)  
-//   // const arr = num % 2 === 0 ? [
-//   //   { key: 1, c: 1 },
-//   //   { key: 2, c: 2 },
-//   //   { key: 3, c: 3 },
-//   //   { key: 4, c: 4 }
-
-
-
-//   // ] : [
-//   //   { key: 3, c: 3 },
-//   //   { key: 2, c: 2 },
-//   //   { key: 1, c: 1 },
-//   //   { key: 4, c: 4 }
-
-//   // ]
-//   const arr = num%2==0? [<li key={1}>1</li>,<li key={2}>2</li>]:[<li key={3}>3</li>,<li key={4}>4</li>]
-//   const click = () => {
-//     // setNum(num + 1); 
-//     // setN(100)
-//     // setNum(num+1)
-//     // setNum()
-//     // console.log(num)
-//     setNum(num=>num+1)
-//     setNum(num=>num+1)
-//     setNum(num=>num+1)
-//   }
-
-
-
-
-//   return <ul onClickCapture={click}>
-//     {num}
-//   </ul>
-// }
-
-// function App() {
-//   const [num, updateNum] = useState(0);
-//   useEffect(() => {
-//     console.log('App mount');
-//   }, []);
-
-//   useEffect(() => {
-//     console.log('num change create', num);
-//     return () => {
-//       console.log('num change destroy', num);
-//     };
-//   }, [num]);
-
 //   return (
-//     <div onClick={() => updateNum(num + 1)}>
-//       {num === 0 ? <Child /> : 'noop'}
-//     </div>
+//     <>
+//       <Child />
+//       <div>hello world</div>
+//     </>
 //   );
 // }
 
 function Child() {
-  useEffect(() => {
-    console.log('hz useEffect');
-    
-    return () => console.log('xie zai hai zi');
-  }, );
+  // useEffect(() => {
+  //   console.log('child effect');
+  //   return () => {
+  //     console.log('child卸载了');
 
-  return 'i am child';
+  //   }
+  // })
+  return 'Child';
 }
-function Parent(){
-  useEffect(()=>{
-    console.log('fuqi useEffect');
-    
-    return ()=>{
-      console.log('xie zai fuqi');
-    }
-  })
-  return <Child></Child>
-}
+
+import { useEffect, useState } from "react";
+// const root = ReactDOM.createRoot()
+// root.render(<App></App>)
+// window.root = root
+
+import ReactDom from "react-dom";
+
+
 function App() {
-  useEffect(()=>{
-    return ()=>{
-      console.log('app xiezai')
-    }
-  })
+  const [n,setN] = useState(100)
+  const click = ()=>{
+    console.log('111')
+    setN(n+2)
+  }
+  return <>
 
-  // const [n, setN] = useState(100)
-  // return <div onClick={() => setN(n + 1)}>
-  //   <div>111</div>
-  //   {n % 2 == 0 && <Parent></Parent>}
+    <div onClick={click}>111</div>
+    {n}
 
-  // </div>
-  return 'APP'
+
+  </>
 }
-const root = ReactDOM.createRoot(roots)
-root.render(<App></App>)
 
+const root = ReactDom.createRoot(document.querySelector('#root'))
+root.render(<App />)
 
-// console.log('xxx')
 
 setTimeout(()=>{
   root.render(null)

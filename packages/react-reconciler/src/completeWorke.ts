@@ -19,13 +19,15 @@ export const completeWork = (wip: FiberNode) => {
         case HostComponent:
             // 构建dom 插入 dom树中
             if (current !== null && wip.stateNode) {
-                // update
+                // todo update
                 // 1. props 是否变化
                 // 2. 变了 Update flag 
                 // 正常情况下要判断所有的props 是否改变，有点麻烦不影响功能，性能影响也不大，暂时不处理
 
                 // FiberNode.updateQueue = [className,'aaa']
+                // 标记有update
                 markUpdate(wip)
+                // ？？？ updateFiberProps(wip.stateNode, newProps)
             } else {
                 // 挂载
                 // 构建dom 

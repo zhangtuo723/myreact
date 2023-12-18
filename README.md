@@ -32,4 +32,5 @@ packages ：react，react-dom，react-reconciler，shared，
 - [x] 实现Fragment
 - [x] 调度模型 lane (已实现同步调度)
 - [x] useEffect钩子函数
+- [x] 完成useEffect测试
 - [ ] 并发更新

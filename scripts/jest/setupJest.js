@@ -1,3 +1,3 @@
 expect.extend({
-	...require('./reactTestMatchers')
-});
+    ...require('./reactTestMatchers')
+})

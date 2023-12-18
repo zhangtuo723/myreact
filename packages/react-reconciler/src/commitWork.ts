@@ -305,11 +305,11 @@ function getHostParent(fiber: FiberNode): Container | null {
             return (parent.stateNode as FiberRootNode).container
         }
         parent = parent.return
+  
+    }
+    if (__DEV__) {
+        console.warn('未找到hostParent');
 
-        if (__DEV__) {
-            console.warn('未找到hostParent');
-
-        }
     }
 
     return null
@@ -337,6 +337,7 @@ function insertOrAppendPlacementNodeIntoContainer(
         insertOrAppendPlacementNodeIntoContainer(child, hostParent)
         let sibling = child.sibling
         while (sibling !== null) {
+        
             insertOrAppendPlacementNodeIntoContainer(sibling, hostParent)
             sibling = sibling.sibling
         }
