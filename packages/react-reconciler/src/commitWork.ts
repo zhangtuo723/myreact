@@ -50,16 +50,20 @@ const commitMutationEffectsOnFiber = (finishedWork: FiberNode, root: FiberRootNo
     // flgs ChildDeletion
     if ((flags & ChildDeletion) !== NoFlags) {
         const deletions = finishedWork.deletions
+        
         if (deletions !== null) {
             deletions.forEach(childToDelete => {
+                
+                
                 commitDeletion(childToDelete, root)
             })
         }
         finishedWork.flags &= ~ChildDeletion
+        
     }
     if ((flags & PassiveEffect) !== NoFlags) {
         // 收集回调
-
+       console.log('更新收集');
         commitPassiveEffect(finishedWork, root, 'update')
         finishedWork.flags &= ~PassiveEffect // 收集后移除
 
@@ -79,7 +83,12 @@ function commitPassiveEffect(fiber: FiberNode, root: FiberRootNode, type: keyof 
         if (updateQueue.lastEffect === null && __DEV__) {
             console.error('当fc存在PassiveEffect flag时，不应该不存在effect')
         }
+        
+        console.log(updateQueue.lastEffect,'xxxxxxxxxxx');
+        
         root.pendingPassiveEffects[type].push(updateQueue.lastEffect as Effect)
+        console.log('xxxss');
+        
     }
 }
 
@@ -99,6 +108,9 @@ function commitHookEffectList(flags: Flags, lastEffect: Effect, callback: (effec
 export function commitHookEffectListUnmount(flags: Flags, lastEffect: Effect) {
     commitHookEffectList(flags, lastEffect, effect => {
         const destroy = effect.destroy
+       
+        console.log('组件卸载执行');
+        
         if (typeof destroy === 'function') {
             destroy();
         }
@@ -110,6 +122,7 @@ export function commitHookEffectListUnmount(flags: Flags, lastEffect: Effect) {
 export function commitHookEffectListDestroy(flags: Flags, lastEffect: Effect) {
     commitHookEffectList(flags, lastEffect, effect => {
         const destroy = effect.destroy
+        console.log('组件更新销毁执行',destroy);
         if (typeof destroy === 'function') {
             destroy();
         }
@@ -122,9 +135,13 @@ export function commitHookEffectListCreate(flags: Flags, lastEffect: Effect) {
 
     commitHookEffectList(flags, lastEffect, effect => {
         const create = effect.create
+        
         if (typeof create === 'function') {
+            
 
             effect.destroy = create()
+            
+            
         }
 
     })
@@ -151,11 +168,20 @@ function recordHostChildrenToDelete(rootChildrenToDelete: FiberNode[], unmountFi
 }
 
 function commitDeletion(childToDelete: FiberNode, root: FiberRootNode) {
+    
+    
     let rootChildrenToDelete: FiberNode[] = []
+    
+    
     // 递归子树
     commitNestedComponent(childToDelete, unmountFiber => {
+
+        
+        
+    
         switch (unmountFiber.tag) {
             case HostComponent:
+                
                 recordHostChildrenToDelete(rootChildrenToDelete, unmountFiber)
                 // TODO 解绑ref
                 return
@@ -164,7 +190,8 @@ function commitDeletion(childToDelete: FiberNode, root: FiberRootNode) {
                 return
             case FunctionComponent:
                 // TODO 解绑ref
-
+                console.log('卸载收集多一次收集');
+                
                 commitPassiveEffect(unmountFiber, root, 'unmount')
                 return
             default:

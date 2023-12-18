@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react'
 
 
 
-const root = document.querySelector('#root')
+const roots = document.querySelector('#root')
 // // const jsx = <div>
 // //   <span>big-react</span>
 // // </div>
@@ -87,34 +87,44 @@ const root = document.querySelector('#root')
 
 function Child() {
   useEffect(() => {
-    console.log('孩子 useEffect');
+    console.log('hz useEffect');
     
-    return () => console.log('卸载孩子');
+    return () => console.log('xie zai hai zi');
   }, );
 
   return 'i am child';
 }
 function Parent(){
   useEffect(()=>{
-    console.log('父亲 useEffect');
+    console.log('fuqi useEffect');
     
     return ()=>{
-      console.log('卸载父亲');
+      console.log('xie zai fuqi');
     }
   })
   return <Child></Child>
 }
 function App() {
-  
+  useEffect(()=>{
+    return ()=>{
+      console.log('app xiezai')
+    }
+  })
 
-  const [n, setN] = useState(100)
-  return <div onClick={() => setN(n + 1)}>
-    <div>111</div>
-    {n % 2 == 0 && <Parent></Parent>}
+  // const [n, setN] = useState(100)
+  // return <div onClick={() => setN(n + 1)}>
+  //   <div>111</div>
+  //   {n % 2 == 0 && <Parent></Parent>}
 
-  </div>
+  // </div>
+  return 'APP'
 }
-ReactDOM.createRoot(root).render(<App></App>)
+const root = ReactDOM.createRoot(roots)
+root.render(<App></App>)
+
 
 // console.log('xxx')
 
+setTimeout(()=>{
+  root.render(null)
+},3000)

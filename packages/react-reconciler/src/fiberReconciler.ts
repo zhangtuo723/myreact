@@ -15,9 +15,13 @@ export function createContainer(container: Container) {
 }
 
 export function updateContainer(element: ReactElementType | null, root: FiberRootNode) {
+    console.log('render 调用了',element);
+    
     const hostRootFiber = root.current;
     const lane = requestUpdateLane()
     const update = createUpdate<ReactElementType | null>(element, lane)
+    console.log('创建update',update);
+    
     enqueueUpdate(hostRootFiber.updateQueue as UpdateQueue<ReactElementType | null>, update)
     scheduleUpdateOnFiber(hostRootFiber, lane)
     return element

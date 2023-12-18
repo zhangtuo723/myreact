@@ -9,6 +9,8 @@ function markUpdate(fiber: FiberNode) {
     fiber.flags |= Update
 }
 export const completeWork = (wip: FiberNode) => {
+    console.log(wip,'xxs');
+    
 
     const newProps = wip.pendingProps
     const current = wip.alternate

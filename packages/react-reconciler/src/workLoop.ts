@@ -25,6 +25,8 @@ function prepareRefreshStack(root: FiberRootNode, lane: Lane) {
 export function scheduleUpdateOnFiber(fiber: FiberNode, lane: Lane) {
     const root = markUpdateFromFibeToRoot(fiber)
     markRootUpdated(root, lane)
+    console.log('开始调度');
+   
     ensureRootIsScheduled(root)
 
 }
@@ -43,7 +45,7 @@ function ensureRootIsScheduled(root: FiberRootNode) {
         }
         // [performSyncWorkOnRoot,performSyncWorkOnRoot] 如队的过程
         scheduleSyncCallback(performSyncWorkOnRoot.bind(null, root, updateLane))
-
+        
         scheduleMicroTask(flushSyncCallbacks)
     } else {
         // 其他优先级 用宏任务调度
@@ -109,6 +111,10 @@ function performSyncWorkOnRoot(root: FiberRootNode, lane: Lane) {
 }
 
 function commitRoot(root: FiberRootNode) {
+    
+    
+    
+    
     // 最后那个离屏fiber
     const finishedWork = root.finishedWork
     if (finishedWork == null) {
@@ -131,11 +137,19 @@ function commitRoot(root: FiberRootNode) {
         (finishedWork.flags & PassiveMask) !== NoFlags ||
         (finishedWork.subtreeFlags & PassiveMask) !== NoFlags
     ) {
+        
+        
         if (!rootDoesHasPassiveEffects) {
             rootDoesHasPassiveEffects = true
             // 调度副作用,使用官方提供的调度器，也就是调用一个回调函数，优先级是NormalPriority
+            // 这是还是空列表？？
+            console.log(root.pendingPassiveEffects.unmount.length,root.pendingPassiveEffects.update.length);
+            
+            
             scheduleCallback(NormalPriority, () => {
                 //执行副作用
+                
+                
                 flushPassiveEffects(root.pendingPassiveEffects)
                 return;
             })
@@ -167,7 +181,10 @@ function commitRoot(root: FiberRootNode) {
 }
 
 function flushPassiveEffects(pendingPassiveEffects: PendingPassiveEffects) {
-
+    
+    
+    
+    
     // 卸载的情况，也就是执行 useEffect 的return
     pendingPassiveEffects.unmount.forEach(effect => {
         // 这里是执行useEffect相关，执行layoutEffect的话就将passive修改过为layout相关的
@@ -182,6 +199,7 @@ function flushPassiveEffects(pendingPassiveEffects: PendingPassiveEffects) {
     })
 
     pendingPassiveEffects.update.forEach(effect => {
+        
         commitHookEffectListCreate(Passive | HookHasEffect,effect)
     })
     
@@ -200,9 +218,11 @@ function workLoop() {
 }
 
 function performanceUnitOfWork(fiber: FiberNode) {
+   
+    
     const next = beginWorker(fiber, wipRootRenderLane)
     fiber.memoizedProps = fiber.pendingProps
-    if (next == null) {
+    if (next === null) { 
         completeUnitofWork(fiber)
     } else {
         workInprogress = next
@@ -213,7 +233,8 @@ function completeUnitofWork(fiber: FiberNode) {
     let node: FiberNode | null = fiber
     do {
         completeWork(node)
-
+       
+        
         const sibling = node.sibling
         if (sibling !== null) {
             workInprogress = sibling

@@ -83,8 +83,10 @@ function mountEffect(create: EffectCallback | void, deps: EffectDeps | void) {
     const nextDeps = deps === undefined ? null : deps;
     (currentlyRenderingFiber as FiberNode).flags |= PassiveEffect
     
+    
     hook.memoizedState = pushEffect(Passive | HookHasEffect, create, undefined, nextDeps)
-
+    
+    
 }
 
 function updateEffect(create: EffectCallback | void, deps: EffectDeps | void) {
@@ -147,6 +149,8 @@ function pushEffect(
 
     const fiber = currentlyRenderingFiber as FiberNode
     const updateQueue = fiber.updateQueue as FCupDateQueue<any>
+  
+    
     if (updateQueue === null) {
         const updateQueue = createFCUpdateQueue()
         fiber.updateQueue = updateQueue

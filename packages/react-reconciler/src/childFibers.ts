@@ -9,10 +9,12 @@ type ExistingChildren = Map<string | number, FiberNode>
 
 function ChildReconciler(shouldTrackEffects: boolean) {
     function deleteChild(returnFiber: FiberNode, childToDelete: FiberNode) {
+       
         if (!shouldTrackEffects) {
             return;
         }
-
+       
+        
         const deletions = returnFiber.deletions;
         if (deletions === null) {
             returnFiber.deletions = [childToDelete]
@@ -32,6 +34,7 @@ function ChildReconciler(shouldTrackEffects: boolean) {
         }
         let childToDelete = currentFirstChild
         while (childToDelete !== null) {
+            
             deleteChild(returnFiber, childToDelete)
             childToDelete = childToDelete.sibling
         }
@@ -71,6 +74,8 @@ function ChildReconciler(shouldTrackEffects: boolean) {
                 }
             } else {
                 // key 不同，删掉旧的
+               
+                
                 deleteChild(returnFiber, currentFiber)
                 currentFiber = currentFiber.sibling
             }
@@ -101,6 +106,8 @@ function ChildReconciler(shouldTrackEffects: boolean) {
                 deleteRemainingChildren(returnFiber, currentFiber.sibling)
                 return existing
             }
+            
+            
             deleteChild(returnFiber, currentFiber)
             currentFiber = currentFiber.sibling
         }
@@ -182,6 +189,8 @@ function ChildReconciler(shouldTrackEffects: boolean) {
 
         //4. 将剩下的标记删除
         existingChildren.forEach(fiber => {
+           
+            
             deleteChild(returnFiber, fiber)
         })
         return firstNewFiber
@@ -277,7 +286,8 @@ function ChildReconciler(shouldTrackEffects: boolean) {
         }
         if (currentFiber !== null) {
             // 兜底删除
-            deleteChild(returnFiber, currentFiber)
+            // deleteChild(returnFiber, currentFiber) ??? 坑的好惨啊
+            
             deleteRemainingChildren(returnFiber, currentFiber)
         }
 
