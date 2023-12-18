@@ -8,6 +8,9 @@ import ReactDom from "react-dom";
 
 function App() {
   const [n,setN] = useState(100)
+  useEffect(()=>{
+    console.log('sssss')
+  })
   const click = ()=>{
     console.log('111')
     setN(n+2)
