@@ -33,4 +33,5 @@ packages ：react，react-dom，react-reconciler，shared，
 - [x] 调度模型 lane (已实现同步调度)
 - [x] useEffect钩子函数
 - [x] 完成useEffect测试
+- [x] 并发更新demo
 - [ ] 并发更新

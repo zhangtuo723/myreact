@@ -175,6 +175,7 @@ function commitRoot(root: FiberRootNode) {
     }
 
     rootDoesHasPassiveEffects = false
+    // 更新完成了 为什么还有重新调度？？
     ensureRootIsScheduled(root)
 
 }
